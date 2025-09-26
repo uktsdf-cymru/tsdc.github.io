@@ -1,8 +1,7 @@
-import React, { useState } from 'react'
+import React from 'react'
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import InstructorDetail from './InstructorDetail';
 import './Instructors.css';
 
 const instructors = [
@@ -70,7 +69,6 @@ const PrevArrow = (props) => {
 };
 
 const Instructors = () => {
-    const [selectedInstructor, setSelectedInstructor] = useState(null);
 
     const settings = {
         dots: true,
@@ -87,21 +85,22 @@ const Instructors = () => {
             <div style={{ maxWidth: '100%', overflow: 'hidden' }}>
                 <Slider {...settings}>
                     {instructors.map((instructor, index) => (
-                        <div key={index} onClick={() => setSelectedInstructor(instructor)}>
-                            <div className="image-container">
-                                    <img src={instructor.picture} alt={instructor.name} />
+                        <div key={index} className="instructor-container">
+                            <div className="instructor-image">
+                                <img src={instructor.picture} alt={instructor.name} />
                             </div>
-                            <h3>{instructor.name}</h3>
+                            <div className="instructor-details">
+                                <h3>{instructor.name}</h3>
+                                <div className="instructor-bio">
+                                    {instructor.bio.map((line, idx) => (
+                                        <p key={idx}>{line}</p>
+                                    ))}
+                                </div>
+                            </div>
                         </div>
                     ))}
                 </Slider>
             </div>
-            {selectedInstructor && (
-                <InstructorDetail
-                    instructor={selectedInstructor}
-                    onClose={() => setSelectedInstructor(null)}
-                />
-            )}
         </div>
     );
 };
